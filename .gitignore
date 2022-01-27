@@ -153,3 +153,5 @@ cython_debug/
 
 #My files
 main_old.py
+turtletest/
+images/
