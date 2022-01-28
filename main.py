@@ -8,12 +8,12 @@ board = {7: ' ', 8: ' ', 9: ' ',
 
 def print_board():
     # Print the game board
-    print("Game       Key")
-    print(f"{board[7]}|{board[8]}|{board[9]}     7|8|9")
-    print(f"-----     -----")
-    print(f"{board[4]}|{board[5]}|{board[6]}     4|5|6")
-    print(f"-----     -----")
-    print(f"{board[1]}|{board[2]}|{board[3]}     1|2|3")
+    print("\n   Game             Key")
+    print(f" {board[7]} | {board[8]} | {board[9]}       7 | 8 | 9")
+    print(f"-----------     -----------")
+    print(f" {board[4]} | {board[5]} | {board[6]}       4 | 5 | 6")
+    print(f"-----------     -----------")
+    print(f" {board[1]} | {board[2]} | {board[3]}       1 | 2 | 3")
 
 
 def check_move(move):
@@ -45,29 +45,21 @@ def ai_move(turn):
 def check_for_win():
     # Parse through board to check for winner
     if board[7] != ' ' and board[7] == board[8] and board[7] == board[9]:
-        print(f"The winner is {board[7]}.")
-        return True
+        return board[7]
     if board[4] != ' ' and board[4] == board[5] and board[4] == board[6]:
-        print(f"The winner is {board[4]}.")
-        return True
+        return board[4]
     if board[1] != ' ' and board[1] == board[2] and board[1] == board[3]:
-        print(f"The winner is {board[1]}.")
-        return True
+        return board[1]
     if board[7] != ' ' and board[7] == board[4] and board[7] == board[1]:
-        print(f"The winner is {board[7]}.")
-        return True
+        return board[7]
     if board[8] != ' ' and board[8] == board[5] and board[8] == board[2]:
-        print(f"The winner is {board[8]}.")
-        return True
+        return board[8]
     if board[9] != ' ' and board[9] == board[6] and board[9] == board[3]:
-        print(f"The winner is {board[9]}.")
-        return True
+        return board[9]
     if board[7] != ' ' and board[7] == board[5] and board[7] == board[3]:
-        print(f"The winner is {board[7]}.")
-        return True
+        return board[7]
     if board[1] != ' ' and board[1] == board[5] and board[1] == board[9]:
-        print(f"The winner is {board[1]}.")
-        return True
+        return board[1]
 
 
 def main():
@@ -88,7 +80,7 @@ def main():
         print_board()
         # Check if 2 player game is at draw
         if turn_count == 9:
-            print("     DRAW")
+            print("\n           DRAW")
             break
         # Get player move
         while True:
@@ -100,19 +92,24 @@ def main():
                     board[int(move)] = 'O'  # Player 2 move if two player game
                 break
         # Check if player has won
-        if check_for_win():
+        if winner := check_for_win():
             print_board()
+            if players == 1:
+                print("\n   The winner is Player.")
+            else:
+                print(f"\n     The winner is {winner}.")
             break
         turn_count += 1
         # Check if one player game and make AI move.
         if players == 1:
             if not ai_move(turn_count):
                 print_board()
-                print("     DRAW")
+                print("\n           DRAW")
                 break
             # Check if AI has won
             if check_for_win():
                 print_board()
+                print("\n     The winner is AI.")
                 break
             turn_count += 1
 
