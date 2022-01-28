@@ -1,4 +1,4 @@
-# Tic Tac Toe - Human vs AI
+# Tic Tac Toe - Human vs AI or Human vs Human
 import random
 
 board = {7: ' ', 8: ' ', 9: ' ',
@@ -7,6 +7,8 @@ board = {7: ' ', 8: ' ', 9: ' ',
 
 
 def print_board():
+    # Print the game board
+    print("Game       Key")
     print(f"{board[7]}|{board[8]}|{board[9]}     7|8|9")
     print(f"-----     -----")
     print(f"{board[4]}|{board[5]}|{board[6]}     4|5|6")
@@ -15,6 +17,7 @@ def print_board():
 
 
 def check_move(move):
+    # Check if human player has valid choice and move
     try:
         if board[int(move)] == ' ':
             return True
@@ -29,10 +32,10 @@ def check_move(move):
 
 
 def ai_move(turn):
-    if turn == 4:
+    # Check if AI can move or if game is draw
+    if turn == 9:
         return False
-    ai_choice = True
-    while ai_choice:
+    while True:
         move = random.randint(1, 9)
         if board[move] == ' ':
             board[move] = 'O'
@@ -68,30 +71,50 @@ def check_for_win():
 
 
 def main():
-    running = True
-    turn = 0
-    while running:
+    while True:
+        # Choose game - Human vs AI or Human vs Human
+        players = input("Press '1' for Player vs. AI or "
+                        "'2' for Player vs. Player> ")
+        if players == '1':
+            players = 1
+            break
+        elif players == '2':
+            players = 2
+            break
+        else:
+            print("Please choose '1' or '2'.")
+    turn_count = 0
+    while True:  # Start game loop
         print_board()
-        # Get player 1 move
+        # Check if 2 player game is at draw
+        if turn_count == 9:
+            print("     DRAW")
+            break
+        # Get player move
         while True:
             move = input("\nPick a number to place your move> ")
             if check_move(move):
-                board[int(move)] = 'X'
+                if turn_count % 2 == 0:
+                    board[int(move)] = 'X'  # Player 1 move
+                else:
+                    board[int(move)] = 'O'  # Player 2 move if two player game
                 break
-        # Check if player 1 has won
+        # Check if player has won
         if check_for_win():
             print_board()
             break
-        # Make AI move
-        if not ai_move(turn):
-            print("DRAW")
-            print_board()
-            break
-        # Check if AI has won
-        if check_for_win():
-            print_board()
-            break
-        turn += 1
+        turn_count += 1
+        # Check if one player game and make AI move.
+        if players == 1:
+            if not ai_move(turn_count):
+                print_board()
+                print("     DRAW")
+                break
+            # Check if AI has won
+            if check_for_win():
+                print_board()
+                break
+            turn_count += 1
 
 
 if __name__ == '__main__':
